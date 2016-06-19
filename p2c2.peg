@@ -4,11 +4,20 @@ post
  
 postItem
  = totoz
+ / canard
  / bigorno
  / norloge
  / opentag
  / closetag
  / .
+ 
+canard
+= ("\\_" teteCanard "<" / ">" teteCanard "_/")
+ {return '<canard/>';}
+ 
+teteCanard
+ = [o0ô°øòó@]
+ 
 
 opentag
  = $("<" tag ">")
@@ -83,7 +92,7 @@ norlogeSeconds
 norlogeId =
  "#" chars:[a-zA-Z0-9_]+
  { var norlogeId = chars.join("");
-   return '<norloge-id' + norlogeId + '">#' + norlogeId + '</norloge-id>';
+   return '<norloge-id>#' + norlogeId + '</norloge-id>';
    }
 
 bigorno

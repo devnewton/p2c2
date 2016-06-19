@@ -11,7 +11,7 @@ function convert() {
 convertButton.addEventListener('click', convert);
 
 function init() {
-	inputArea.value = '10:11:03 [:bondour] les <b>moules<</b>';
+	inputArea.value = '>o_/ 22:23:56 #5766f86ae4b00e368dfab8a3 [:bondour] 2016/06/19#10:22:01 les <b>moules<</b> \_o<';
 	convert();
 }
 document.readyState === "interactive" || document.readyState === "complete" ? init() : document.addEventListener("DOMContentLoaded", init);
