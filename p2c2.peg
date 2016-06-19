@@ -3,13 +3,18 @@ post
  { return items.join(""); }
  
 postItem
- = totoz
+ = url
+ / totoz
  / canard
  / bigorno
  / norloge
  / opentag
  / closetag
  / .
+ 
+url
+ = url:$((("http" "s"?) / "ftp") "://" [^ \t\r\n]+)
+ {return '<url>' + url + '</url>'}
  
 canard
 = ("\\_" teteCanard "<" / ">" teteCanard "_/")
