@@ -8,6 +8,7 @@ postItem
  / canard
  / bigorno
  / norloge
+ / atag
  / opentag
  / closetag
  / .
@@ -22,29 +23,49 @@ canard
  
 teteCanard
  = [o0ô°øòó@]
- 
 
 opentag
- = $("<" tag ">")
+ = $("<" validFormatTag ">")
  / invalidOpenTag
+
+validFormatTag
+ = ("b" / "i" / "s" / "u" / "tt")
  
 closetag
- = $("</" tag ">")
+ = $("</" validFormatTag ">")
  / invalidCloseTag
  
 invalidOpenTag
- = "<" tagName ">"
+ = "<" invalidTag ">"
  { return ""; }
 
 invalidCloseTag
- = "</" tagName ">"
+ = "</" invalidTag ">"
  { return ""; }
  
-tagName
+invalidTag
  = [A-Za-z] [^>]*
+
+atag
+ = "<a" attributes:tagAttributes ">" [^<]* "</a>"
+ { 
+   if(attributes.href) {
+      return "<url>" + attributes.href + "</url>";
+   }
+ }
  
-tag
- = ("a" / "b" / "i" / "s" / "u" / "tt")
+tagAttributes
+ = attributes:(separator:" " attribute:tagAttribute { return attribute;})*
+ {  var result = {};
+ 	for(var a in attributes) {
+    	result[attributes[a].name] = attributes[a].value;
+    }
+ 	return result;
+ }
+
+tagAttribute
+ = name:$[a-z]+ value:("=\"" value:$[^"]* "\"" {return value;} )?
+ {return { name: name, value: value}}
 
 norloge
  = norlogeTime
