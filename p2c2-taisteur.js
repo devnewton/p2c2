@@ -11,7 +11,7 @@ function convert() {
 convertButton.addEventListener('click', convert);
 
 function init() {
-	inputArea.value = '>o_/ 22:23:56 #5766f86ae4b00e368dfab8a3 [:bondour] 2016/06/19#10:22:01 les <b>moules<</b> \\_o< https://sauf.ca http://totoz.eu/ ftp://ftp.fr.debian.org/ <a><i> <a nofollow="plop" href="http://linuxfr.org"> <a href="http://linuxfr.org" nofollow target="_blank">plop</a>';
+	inputArea.value = '>o_/ 22:23:56 #5766f86ae4b00e368dfab8a3 [:bondour] 2016/06/19#10:22:01 les <b>moules<</b> \\_o< https://sauf.ca http://totoz.eu/ ftp://ftp.fr.debian.org/ <a><i> <a nofollow="plop" href="http://linuxfr.org"> <a href="http://linuxfr.org" nofollow target="_blank">plop</a> <b><i>pas fermé</u>';
 	convert();
 }
 document.readyState === "interactive" || document.readyState === "complete" ? init() : document.addEventListener("DOMContentLoaded", init);

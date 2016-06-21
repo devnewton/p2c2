@@ -1,6 +1,19 @@
+{
+
+var p2c2 = {};
+p2c2.tagStack = [];
+
+}
+
 post
  = items:postItem*
- { return items.join(""); }
+ {
+ 	var result = items.join("");
+    while(p2c2.tagStack.length > 0) {
+    	result += "</" + p2c2.tagStack.pop() + ">";
+    }
+    return result;
+ }
  
 postItem
  = url
@@ -25,16 +38,43 @@ teteCanard
  = [o0ô°øòó@]
 
 opentag
- = $("<" validFormatTag ">")
+ = validOpenTag
  / invalidOpenTag
+
+validOpenTag
+ = "<" tag:validFormatTag ">"
+ {
+ 	p2c2.tagStack.push(tag);
+    console.log("push " + tag);
+ 	return "<" + tag + ">";
+ }
+ 
+closetag
+ = validCloseTag
+ / invalidCloseTag
+
+validCloseTag
+ = "</" tag:validFormatTag ">"
+ {
+ 	var result = "";
+ 	for(;;) {
+      var poppedTag = p2c2.tagStack.pop();
+      if(poppedTag == undefined) {
+      	break;
+      }
+      if( poppedTag == tag) {
+      	result += "</" + tag + ">";
+        break;
+      } else {
+      	result += "</" + poppedTag + ">";
+      }
+    }
+    return result;
+ }
 
 validFormatTag
  = ("b" / "i" / "s" / "u" / "tt")
- 
-closetag
- = $("</" validFormatTag ">")
- / invalidCloseTag
- 
+
 invalidOpenTag
  = "<" invalidTag ">"
  { return ""; }
