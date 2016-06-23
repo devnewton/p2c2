@@ -35,7 +35,7 @@ canard
  {return '<canard/>';}
  
 teteCanard
- = [o0ô°øòó@]
+ = [oO0ô°øòó@]
 
 opentag
  = validOpenTag
@@ -162,7 +162,7 @@ norlogeId =
    }
 
 bigorno
- = bigorno:[a-zA-Z0-9-_]+ "<" &(whitespaces / [<[])
+ = whitespaces bigorno:[a-zA-Z0-9-_]+ "<" &(whitespaces / [<[])
  { return [].concat('<bigorno>', bigorno,'</bigorno>').join("")}
 
 totoz
@@ -171,4 +171,7 @@ totoz
   return '<totoz>' + totozId + '</totoz>'; }
   
 whitespaces
- = [ \t\r\n] / !.
+ = inputStart / [ \t\r\n] / ! .
+
+inputStart
+ = & { return location().start.offset == 0; }
