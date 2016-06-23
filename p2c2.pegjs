@@ -22,13 +22,37 @@ postItem
  / bigorno
  / norloge
  / atag
- / opentag
- / closetag
+ / openTag
+ / closeTag
+ / xmlSpecialChar
  / .
  
+xmlSpecialChar
+ = (lt / gt / amp / quot / apos)
+ 
+lt
+ = "<"
+ { return "&lt;"; }
+ 
+gt
+ = ">"
+ { return "&gt;"; }
+ 
+amp
+ = "&"
+ { return "&amp;"; }
+
+quot
+ = '"'
+ { return "&quot;"; }
+ 
+apos
+ = "'"
+ { return "&apos;"; }
+ 
 url
- = url:$((("http" "s"?) / "ftp") "://" [^ \t\r\n]+)
- {return '<url>' + url + '</url>'}
+ = protocol:$((("http" "s"?) / "ftp") "://") url:(xmlSpecialChar / [^ \t\r\n])+
+ { return [].concat('<url>', protocol, url.join(""), '</url>').join("");}
  
 canard
 = ("\\_" teteCanard "<" / ">" teteCanard "_/")
@@ -37,23 +61,15 @@ canard
 teteCanard
  = [oO0ô°øòó@]
 
-opentag
- = validOpenTag
- / invalidOpenTag
-
-validOpenTag
+openTag
  = "<" tag:validFormatTag ">"
  {
  	p2c2.tagStack.push(tag);
     console.log("push " + tag);
  	return "<" + tag + ">";
  }
- 
-closetag
- = validCloseTag
- / invalidCloseTag
 
-validCloseTag
+closeTag
  = "</" tag:validFormatTag ">"
  {
  	var result = "";
@@ -76,15 +92,15 @@ validFormatTag
  = ("b" / "i" / "s" / "u" / "tt")
 
 invalidOpenTag
- = "<" invalidTag ">"
- { return ""; }
+ = "<" tag:invalidTag ">"
+ { return "&lt" + tag; + "&gt"; }
 
 invalidCloseTag
- = "</" invalidTag ">"
- { return ""; }
+ = "</" tag:invalidTag ">"
+ { return  "&lt/" + tag; + "&gt";; }
  
 invalidTag
- = [A-Za-z] [^>]*
+ = [A-Za-z] (xmlSpecialChar / [^>])*
 
 atag
  = "<a" attributes:tagAttributes ">" [^<]* "</a>"
